@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import { Button, List, InputItem, WhiteSpace } from 'antd-mobile'
+import { userTest } from '../../api/login'
 import './Login.css'
 import { createForm } from 'rc-form'
 class Login extends Component {
+  componentDidMount() {
+    userTest().then(res => {
+      console.log(res.data)
+    })
+  }
   render() {
     const { getFieldProps } = this.props.form
     return (
