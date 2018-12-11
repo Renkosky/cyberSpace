@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import NavBar from './NavBar'
 import LoginWrapper from './Login/Login'
+import Register from './register'
 import News from './News'
 import Park from './Park'
 class AppRoute extends Component {
@@ -11,6 +12,7 @@ class AppRoute extends Component {
         <Switch>
           <Route exact path="/" component={LoginWrapper} />
           <Route exact path="/login" component={LoginWrapper} />
+          <Route exact path="/register" component={Register} />
           <NavBar>
             <Switch>
               <Route exact path="/park" component={Park} />
