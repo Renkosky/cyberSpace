@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
 import { Button, List, InputItem } from 'antd-mobile'
 import { createForm } from 'rc-form'
+import { register } from '../../api/register'
 class Register extends Component {
   state = {}
 
-  register = () => {
+  newRegister = () => {
     const { validateFields } = this.props.form
     validateFields((error, value) => {
-      console.log(error, value)
+      const { username, password, email } = value
+      if (error) {
+        return
+      }
+      register(value).then(res => {
+        console.log(res.data)
+      })
     })
   }
 
@@ -33,7 +40,7 @@ class Register extends Component {
           <Button
             type="primary"
             style={{ margin: '10% 0' }}
-            onClick={this.register}
+            onClick={this.newRegister}
           >
             注册
           </Button>
