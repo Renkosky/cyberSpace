@@ -4,7 +4,7 @@ import axios from 'axios'
 import registerServiceWorker from './registerServiceWorker'
 import Route from './pages/Route'
 import _ from 'lodash'
-
+import './index.css'
 // if (process.env.NODE_ENV === 'development') {
 //   axios.defaults.baseURL = 'http://localhost:9093'
 // }

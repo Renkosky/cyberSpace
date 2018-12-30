@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, List, InputItem, WhiteSpace } from 'antd-mobile'
 import { userTest } from '../../api/login'
+import { withRouter } from 'react-router-dom'
 import './Login.css'
 import { createForm } from 'rc-form'
 class Login extends Component {
@@ -26,10 +27,17 @@ class Login extends Component {
           <Button type="primary" style={{ margin: '10% 0' }}>
             登录
           </Button>
+          <Button
+            type="primary"
+            style={{ margin: '10% 0' }}
+            onClick={() => this.props.history.push('/signup')}
+          >
+            注册
+          </Button>
         </div>
       </div>
     )
   }
 }
 const LoginWrapper = createForm()(Login)
-export default LoginWrapper
+export default withRouter(LoginWrapper)

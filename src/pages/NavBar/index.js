@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Tabs, Badge } from 'antd-mobile'
 import { Link, withRouter, matchPath } from 'react-router-dom'
+import './index.less'
 import PropTypes from 'prop-types'
 
 const tabs2 = [
@@ -10,15 +11,6 @@ const tabs2 = [
 ]
 
 class NavBar extends Component {
-  state = {}
-  renderTabBar = props => {
-    return (
-      <Link to="/news">
-        <Tabs.DefaultTabBar {...props} />
-      </Link>
-    )
-  }
-  //   renderTabBar = ()
   render() {
     const { children } = this.props
     console.log(children)

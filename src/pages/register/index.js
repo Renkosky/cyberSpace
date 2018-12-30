@@ -13,7 +13,10 @@ class Register extends Component {
         return
       }
       register(value).then(res => {
-        console.log(res.data)
+        const { code } = res.data
+        if (code === 1) {
+          this.props.history.push('/news')
+        }
       })
     })
   }
