@@ -13,7 +13,6 @@ const tabs2 = [
 class NavBar extends Component {
   render() {
     const { children } = this.props
-    console.log(children)
 
     return (
       <Tabs

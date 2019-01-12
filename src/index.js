@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom'
 import axios from 'axios'
 import registerServiceWorker from './registerServiceWorker'
 import Route from './pages/Route'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 import _ from 'lodash'
-import './index.css'
+import './index.less'
 // if (process.env.NODE_ENV === 'development') {
 //   axios.defaults.baseURL = 'http://localhost:9093'
 // }
@@ -28,5 +30,10 @@ axios.interceptors.response.use(
   }
 )
 
-ReactDOM.render(<Route />, document.getElementById('root'))
+ReactDOM.render(
+  <Provider store={store}>
+    <Route />
+  </Provider>,
+  document.getElementById('root')
+)
 registerServiceWorker()

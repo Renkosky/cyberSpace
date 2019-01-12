@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import { Button, Modal } from 'antd-mobile'
 import { login } from '../../api/login'
-import { withRouter } from 'react-router-dom'
 import './Login.css'
-import { createForm } from 'rc-form'
+import actions from '../../redux/actions'
+import { connect } from 'react-redux'
+
 const prompt = Modal.prompt
 class Login extends Component {
   userLogin = (username, password) => {
+    const { storeUserInfo } = this.props
     let userInfo = {
       username,
       password
     }
+    console.log(storeUserInfo)
+
     login(userInfo).then(res => {
       const { data } = res.data
       console.log(res.data)
@@ -40,5 +44,7 @@ class Login extends Component {
     )
   }
 }
-const LoginWrapper = createForm()(Login)
-export default withRouter(LoginWrapper)
+export default connect(
+  state => state,
+  actions
+)(Login)
