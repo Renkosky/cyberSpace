@@ -8,7 +8,8 @@ class Register extends Component {
   newRegister = () => {
     const { validateFields } = this.props.form
     validateFields((error, value) => {
-      const { username, password, email } = value
+      console.log(value)
+
       if (error) {
         return
       }
