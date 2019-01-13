@@ -10,7 +10,7 @@ const userInfo = (state = initUserInfo, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
-        name: action.username,
+        username: action.username,
         id: action.id
       })
     default:

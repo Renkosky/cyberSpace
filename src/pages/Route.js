@@ -4,6 +4,7 @@ import NavBar from './NavBar'
 import Register from './Register'
 import News from './News'
 import Park from './Park'
+import Me from './Me'
 class AppRoute extends Component {
   render() {
     return (
@@ -14,6 +15,7 @@ class AppRoute extends Component {
             <Route exact path="/signup" component={Register} />
             <Route exact path="/park" component={Park} />
             <Route exact path="/news" component={News} />
+            <Route exact path="/me" component={Me} />
           </Switch>
         </NavBar>
       </BrowserRouter>

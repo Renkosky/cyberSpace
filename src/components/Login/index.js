@@ -16,14 +16,24 @@ class Login extends Component {
     console.log(storeUserInfo)
 
     login(userInfo).then(res => {
-      const { data } = res.data
-      console.log(res.data)
-      localStorage.setItem('token', data)
+      const { token, _id } = res.data
+      localStorage.setItem('token', token)
+      localStorage.setItem('id', _id)
+      storeUserInfo({ username, id: _id })
     })
   }
 
   render() {
-    return (
+    return this.props.userInfo.username ? (
+      <div style={{ justifyContent: 'flex-end', height: 35, width: 80 }}>
+        <Button
+          type="primary"
+          style={{ fontSize: 12, height: '100%', lineHeight: '35px' }}
+        >
+          发帖
+        </Button>
+      </div>
+    ) : (
       <div style={{ justifyContent: 'flex-end', height: 35, width: 80 }}>
         <Button
           style={{ fontSize: 12, height: '100%', lineHeight: '35px' }}

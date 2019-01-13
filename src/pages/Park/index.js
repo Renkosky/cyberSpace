@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './index.less'
 import Post from '../Post/index'
 import Login from '../../components/Login'
+import { connect } from 'react-redux'
 
 const prefixCls = 'Park'
 class Park extends Component {
@@ -12,7 +13,11 @@ class Park extends Component {
       <div className={`${prefixCls}`}>
         <div className={`${prefixCls}-layer`}>
           <div className={`${prefixCls}-welcome`}>
-            Hi~ xxx 今天的日期是：{new Date().toLocaleDateString()}
+            {this.props.userInfo.username
+              ? `Hi~${this.props.userInfo.username}。`
+              : '如要发帖请先登陆。'}
+            今天的日期是：
+            {new Date().toLocaleDateString()}
           </div>
           <Login />
         </div>
@@ -22,5 +27,4 @@ class Park extends Component {
     )
   }
 }
-
-export default Park
+export default connect(state => state)(Park)
