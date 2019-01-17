@@ -21,6 +21,8 @@ class NavBar extends Component {
         // onTabClick={this.onTabClick}
         tabBarPosition="bottom"
         renderTab={tab => <Link to={`/${tab.sub}`}>{tab.title}</Link>}
+        onChange={(tabs)=>{console.log(tabs);
+        }}
       >
         <div>{children}</div>
       </Tabs>

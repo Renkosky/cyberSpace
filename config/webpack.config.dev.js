@@ -9,7 +9,6 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
 const getClientEnvironment = require('./env')
 const paths = require('./paths')
-
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
 const publicPath = '/'
@@ -84,7 +83,8 @@ module.exports = {
     alias: {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web'
+      'react-native': 'react-native-web',
+      'components':path.resolve('../src/components')
     },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).

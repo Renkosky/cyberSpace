@@ -18,7 +18,7 @@ class Login extends Component {
     login(userInfo).then(res => {
       const { token, _id } = res.data
       localStorage.setItem('token', token)
-      localStorage.setItem('id', _id)
+      // localStorage.setItem('id', _id)
       storeUserInfo({ username, id: _id })
     })
   }

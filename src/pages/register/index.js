@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, List, InputItem } from 'antd-mobile'
+import { Button, List, InputItem, Toast } from "antd-mobile";
 import { createForm } from 'rc-form'
 import { register } from '../../api/register'
 class Register extends Component {
@@ -18,6 +18,8 @@ class Register extends Component {
         if (code === 1) {
           this.props.history.push('/news')
         }
+      }).catch(err=>{
+         Toast.fail(err);
       })
     })
   }

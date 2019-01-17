@@ -14,13 +14,14 @@ import './index.less'
 axios.interceptors.response.use(
   response => response,
   error => {
-    let errorMsg = _.get(error, 'response.data.message', '出现了错误')
-
+    let errorMsg = _.get(error, 'response.data.message')
     const statusCode = _.get(error, 'response.data.statusCode')
     if (statusCode === 401) {
       errorMsg = '登录已失效，请重新登录'
     }
-
+    if(statusCode === 410){
+      errorMsg = '该用户名已经被注册！'
+    }
     if (statusCode === 403) {
       errorMsg = '您无权限查看该界面'
     }
@@ -29,6 +30,16 @@ axios.interceptors.response.use(
     return Promise.reject(errorMsg)
   }
 )
+axios.interceptors.request.use(function (config) {
+  const token = localStorage.getItem('login_token');
+  if (token) {
+    config.headers["Authorization"] = token;
+  }
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
+
 
 ReactDOM.render(
   <Provider store={store}>
