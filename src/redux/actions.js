@@ -12,7 +12,9 @@ export default {
     return {
       type: LOGIN_SUCCESS,
       username: userinfo.username,
-      id: userinfo.id
+      _id: userinfo._id,
+      createTime: userinfo.createTime,
+      email: userinfo.email
     }
   }
 }

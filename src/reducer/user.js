@@ -1,6 +1,8 @@
 const initUserInfo = {
   username: '',
-  id: ''
+  _id: '',
+  createTime: {},
+  email: ''
   // isadmin: false
 }
 
@@ -9,7 +11,9 @@ export const storeUserInfo = (state = initUserInfo, action) => {
     case 'LOGIN_SUCCESS':
       return Object.assign({}, state, {
         name: action.username,
-        id: action.id
+        _id: action._id,
+        createTime: action.createTime,
+        email: action.email
       })
     default:
       return state

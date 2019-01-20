@@ -1,20 +1,61 @@
 import React, { Component } from 'react'
-import { getUserById } from '../../api/user'
+import { getUserInfo } from '../../api/user'
+import { connect } from 'react-redux'
+import actions from '../../redux/actions'
+import './index.less'
+const preFixCls = 'me'
+const keymap = {
+  username: '用户名',
+  email: '邮箱',
+  createTime: '注册时间',
+  _id: 'id'
+}
 class Me extends Component {
   getUser() {
-    let id = localStorage.getItem('id')
-    getUserById(id).then(res => {
-      console.log(res.data)
+    getUserInfo().then(res => {
+      const { username, _id, email, createTime } = res.data.userInfo
+      const { storeUserInfo } = this.props
+      storeUserInfo({
+        username,
+        _id,
+        createTime: new Date(createTime).toLocaleDateString(),
+        email
+      })
     })
   }
   componentDidMount() {
-    this.getUser()
-    console.log(123)
+    if (!this.props.userInfo.username && localStorage.getItem('token'))
+      this.getUser()
   }
-  state = {}
+  state = { userInfo: {} }
   render() {
-    return 'me'
+    const { userInfo } = this.props
+    console.log(userInfo)
+
+    return (
+      <div className={`${preFixCls}`}>
+        <div className={`${preFixCls}-profile`}>
+          <div className={`${preFixCls}-profile-avator`} />
+          <div style={{ padding: '20%' }} />
+          <div className={`${preFixCls}-profile-info`}>
+            {userInfo.username ? (
+              Object.keys(userInfo).map((key, index) => {
+                return (
+                  <span key={index}>
+                    {keymap[key]}: {userInfo[key].slice(0, 20)}
+                  </span>
+                )
+              })
+            ) : (
+              <span style={{ textAlign: 'center' }}>你还尚未登陆哟</span>
+            )}
+          </div>
+        </div>
+      </div>
+    )
   }
 }
-
-export default Me
+export default connect(
+  state => state,
+  actions
+)(Me)

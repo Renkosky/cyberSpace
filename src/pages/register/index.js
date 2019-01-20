@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, List, InputItem, Toast } from "antd-mobile";
+import { Button, List, InputItem, Toast } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import { register } from '../../api/register'
 class Register extends Component {
@@ -8,19 +8,19 @@ class Register extends Component {
   newRegister = () => {
     const { validateFields } = this.props.form
     validateFields((error, value) => {
-      console.log(value)
-
       if (error) {
         return
       }
-      register(value).then(res => {
-        const { code } = res.data
-        if (code === 1) {
-          this.props.history.push('/news')
-        }
-      }).catch(err=>{
-         Toast.fail(err);
-      })
+      register(value)
+        .then(res => {
+          const { code } = res.data
+          if (code === 0) {
+            this.props.history.push('/park')
+          }
+        })
+        .catch(err => {
+          Toast.fail(err)
+        })
     })
   }
 

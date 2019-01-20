@@ -19,7 +19,7 @@ axios.interceptors.response.use(
     if (statusCode === 401) {
       errorMsg = '登录已失效，请重新登录'
     }
-    if(statusCode === 410){
+    if (statusCode === 410) {
       errorMsg = '该用户名已经被注册！'
     }
     if (statusCode === 403) {
@@ -30,16 +30,19 @@ axios.interceptors.response.use(
     return Promise.reject(errorMsg)
   }
 )
-axios.interceptors.request.use(function (config) {
-  const token = localStorage.getItem('login_token');
-  if (token) {
-    config.headers["Authorization"] = token;
-  }
-  return config;
-}, function (error) {
-  return Promise.reject(error);
-});
 
+axios.interceptors.request.use(
+  function(config) {
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers['Authorization'] = token
+    }
+    return config
+  },
+  function(error) {
+    return Promise.reject(error)
+  }
+)
 
 ReactDOM.render(
   <Provider store={store}>

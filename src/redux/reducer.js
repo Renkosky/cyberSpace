@@ -1,8 +1,11 @@
 import { LOGIN_SUCCESS } from './action-types'
 import { combineReducers } from 'redux'
+
 const initUserInfo = {
   username: '',
-  id: ''
+  _id: '',
+  createTime: '',
+  email: ''
   // isadmin: false
 }
 
@@ -11,7 +14,9 @@ const userInfo = (state = initUserInfo, action) => {
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
         username: action.username,
-        id: action.id
+        _id: action._id,
+        createTime: action.createTime,
+        email: action.email
       })
     default:
       return state
