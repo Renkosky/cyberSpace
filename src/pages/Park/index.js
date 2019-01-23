@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import './index.less'
-import Post from '../Post/index'
+// import Post from '../Post/index'
 import Login from '../../components/Login'
 import { connect } from 'react-redux'
 import actions from '../../redux/actions'
 import { getUserInfo } from '../../api/user'
+import Post from "pages/Post";
 const prefixCls = 'Park'
 class Park extends Component {
   state = {

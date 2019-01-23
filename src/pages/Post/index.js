@@ -13,7 +13,7 @@ class Post extends Component {
         </div>
         <div className={`${prefixCls}-content`}>
           <span className={`${prefixCls}-content-author`}>author</span>
-          <div className={`${prefixCls}-content-title`}>帖子标题</div>
+          <div className={`${prefixCls}-content-title`}>帖子标题2</div>
         </div>
       </div>
     )

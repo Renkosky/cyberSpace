@@ -20,7 +20,6 @@ class NavBar extends Component {
   render() {
     const { children } = this.props
     const { index } = this.state
-    console.log(index)
 
     return (
       <Tabs
@@ -28,7 +27,8 @@ class NavBar extends Component {
         initialPage={index === null ? 1 : parseInt(index, 10)}
         // onTabClick={this.onTabClick}
         tabBarPosition="bottom"
-        renderTab={tab => <Link to={`/${tab.sub}`}>{tab.title}</Link>}
+        tabBarInactiveTextColor='grey'
+        renderTab={tab => <p>{tab.title}</p>}
         onChange={tabs => {
           this.props.history.push(`/${tabs.sub}`)
           sessionStorage.setItem('index', tabs.index)

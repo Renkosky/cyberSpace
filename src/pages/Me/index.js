@@ -30,7 +30,6 @@ class Me extends Component {
   state = { userInfo: {} }
   render() {
     const { userInfo } = this.props
-    console.log(userInfo)
 
     return (
       <div className={`${preFixCls}`}>
@@ -47,7 +46,7 @@ class Me extends Component {
                 )
               })
             ) : (
-              <span style={{ textAlign: 'center' }}>你还尚未登陆哟</span>
+              <p style={{ textAlign: 'center',width:'100%' }}>你还尚未登陆哟</p>
             )}
           </div>
         </div>
