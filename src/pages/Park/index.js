@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import actions from '../../redux/actions'
 import { getUserInfo } from '../../api/user'
 import Post from "pages/Post";
+import { Button } from 'antd-mobile';
 const prefixCls = 'Park'
 class Park extends Component {
   state = {
@@ -30,21 +31,25 @@ class Park extends Component {
   render() {
     // const { username } = this.state
     const { username } = this.props.userInfo
-    return (
-      <div className={`${prefixCls}`}>
+    return <div className={`${prefixCls}`}>
         <div className={`${prefixCls}-title`}>话题广场</div>
         <div className={`${prefixCls}-layer`}>
           <div className={`${prefixCls}-welcome`}>
-            {username ? `Hi~${username}。` : '如要发帖请先登陆。'}
+            {username ? `Hi~${username}。` : "如要发帖请先登陆。"}
             今天的日期是：
             {new Date().toLocaleDateString()}
           </div>
-          <Login />
+          {username?
+          <div style={{ justifyContent: "flex-end", height: 35, width: 80 }}>
+            <Button type="primary" style={{ fontSize: 12, height: "100%", lineHeight: "35px" }}>
+              发帖
+            </Button>
+          </div>:
+          <Login />}
         </div>
 
         <Post />
-      </div>
-    )
+      </div>;
   }
 }
 export default connect(

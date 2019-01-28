@@ -5,9 +5,10 @@ const initUserInfo = {
   username: '',
   _id: '',
   createTime: '',
-  email: ''
+  email: '',  
   // isadmin: false
 }
+
 
 const userInfo = (state = initUserInfo, action) => {
   switch (action.type) {
