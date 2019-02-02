@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import './index.less'
 // import Post from '../Post/index'
 import Login from '../../components/Login'
+import Push from 'components/push'
+import { Button } from 'antd-mobile'
 import { connect } from 'react-redux'
 import actions from '../../redux/actions'
 import { getUserInfo } from '../../api/user'
@@ -10,7 +12,8 @@ import { Button } from 'antd-mobile';
 const prefixCls = 'Park'
 class Park extends Component {
   state = {
-    username: ''
+    username: '',
+    pushShow: false
   }
   componentDidMount() {
     if (!this.props.userInfo.username && localStorage.getItem('token')) {
@@ -28,6 +31,10 @@ class Park extends Component {
       })
     }
   }
+  collspasePush = () => {
+    const { pushShow } = this.state
+    this.setState({ pushShow: !pushShow })
+  }
   render() {
     // const { username } = this.state
     const { username } = this.props.userInfo
@@ -39,17 +46,25 @@ class Park extends Component {
             今天的日期是：
             {new Date().toLocaleDateString()}
           </div>
-          {username?
-          <div style={{ justifyContent: "flex-end", height: 35, width: 80 }}>
-            <Button type="primary" style={{ fontSize: 12, height: "100%", lineHeight: "35px" }}>
-              发帖
-            </Button>
-          </div>:
-          <Login />}
+          {this.props.userInfo.username ? (
+            <div style={{ justifyContent: 'flex-end', height: 35, width: 80 }}>
+              <Button
+                type="primary"
+                style={{ fontSize: 12, height: '100%', lineHeight: '35px' }}
+                onClick={this.collspasePush}
+              >
+                发帖
+              </Button>
+            </div>
+          ) : (
+            <Login />
+          )}
         </div>
 
         <Post />
-      </div>;
+        <Push show={this.state.pushShow} />
+      </div>
+    )
   }
 }
 export default connect(
