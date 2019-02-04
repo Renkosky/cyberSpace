@@ -32,7 +32,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div style={{ justifyContent: 'flex-end', height: 35, width: 80 }}>
+      <div style={{ justifyContent: 'flex-end' }}>
         <Button
           style={{ fontSize: 12, height: '100%', lineHeight: '35px' }}
           onClick={() =>

@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import './index.less'
 // import Post from '../Post/index'
 import Login from '../../components/Login'
-import Push from 'components/push'
+import PushModal from 'components/Push'
 import { Button } from 'antd-mobile'
 import { connect } from 'react-redux'
 import actions from '../../redux/actions'
 import { getUserInfo } from '../../api/user'
-import Post from "pages/Post";
-import { Button } from 'antd-mobile';
+import Post from 'pages/Post'
 const prefixCls = 'Park'
 class Park extends Component {
   state = {
@@ -38,15 +37,16 @@ class Park extends Component {
   render() {
     // const { username } = this.state
     const { username } = this.props.userInfo
-    return <div className={`${prefixCls}`}>
+    return (
+      <div className={`${prefixCls}`}>
         <div className={`${prefixCls}-title`}>话题广场</div>
         <div className={`${prefixCls}-layer`}>
           <div className={`${prefixCls}-welcome`}>
-            {username ? `Hi~${username}。` : "如要发帖请先登陆。"}
+            {username ? `Hi~${username}。` : '如要发帖请先登陆。'}
             今天的日期是：
             {new Date().toLocaleDateString()}
           </div>
-          {this.props.userInfo.username ? (
+          {username ? (
             <div style={{ justifyContent: 'flex-end', height: 35, width: 80 }}>
               <Button
                 type="primary"
@@ -62,7 +62,10 @@ class Park extends Component {
         </div>
 
         <Post />
-        <Push show={this.state.pushShow} />
+        <PushModal
+          show={this.state.pushShow}
+          collspasePush={this.collspasePush}
+        />
       </div>
     )
   }
