@@ -6,15 +6,21 @@ import PushModal from 'components/Push'
 import { Button } from 'antd-mobile'
 import { connect } from 'react-redux'
 import actions from '../../redux/actions'
-import { getUserInfo } from '../../api/user'
-import Post from 'pages/Post'
+import { getUserInfo } from 'api/user'
+import {getAllPosts} from 'api/post'
+import Post from 'components/Post'
 const prefixCls = 'Park'
 class Park extends Component {
   state = {
     username: '',
-    pushShow: false
+    pushShow: false,
+    posts:[]
   }
   componentDidMount() {
+    getAllPosts().then(res=>{
+      const {posts}= res.data
+      this.setState({posts})
+    })
     if (!this.props.userInfo.username && localStorage.getItem('token')) {
       getUserInfo().then(res => {
         const { username, _id, email, createTime } = res.data.userInfo
@@ -37,6 +43,7 @@ class Park extends Component {
   render() {
     // const { username } = this.state
     const { username } = this.props.userInfo
+    const {posts} =this.state
     return (
       <div className={`${prefixCls}`}>
         <div className={`${prefixCls}-title`}>话题广场</div>
@@ -61,7 +68,7 @@ class Park extends Component {
           )}
         </div>
 
-        <Post />
+        {posts && posts.map((item,index)=><Post postData={item}/>)}
         <PushModal
           show={this.state.pushShow}
           collspasePush={this.collspasePush}

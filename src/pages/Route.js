@@ -1,16 +1,19 @@
-import React, { Component } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import NavBar from './NavBar'
-import Register from './Register'
-import News from './News'
-import Park from './Park'
-import Me from './Me'
+import React, { Component } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import NavBar from "./NavBar";
+import Register from "./Register";
+import News from "./News";
+import Park from "./Park";
+import Me from "./Me";
+import ListViews from "./ListView";
 // import re from 'components/Login'
 class AppRoute extends Component {
   render() {
-    return <BrowserRouter>
+    return (
+      <BrowserRouter>
         <Switch>
           <Route exact path="/signup" component={Register} />
+          <Route exact path="/test" component={ListViews} />>
           <NavBar>
             <Route exact path="/" component={Park} />
             <Route exact path="/park" component={Park} />
@@ -18,8 +21,9 @@ class AppRoute extends Component {
             <Route exact path="/me" component={Me} />
           </NavBar>
         </Switch>
-      </BrowserRouter>;
+      </BrowserRouter>
+    );
   }
 }
 
-export default AppRoute
+export default AppRoute;

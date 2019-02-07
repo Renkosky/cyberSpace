@@ -7,6 +7,8 @@ import { Provider } from 'react-redux'
 import store from './redux/store'
 import _ from 'lodash'
 import './index.less'
+import initReactFastclick from "react-fastclick";
+initReactFastclick();
 // if (process.env.NODE_ENV === 'development') {
 //   axios.defaults.baseURL = 'http://localhost:9093'
 // }
