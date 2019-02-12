@@ -1,9 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 class Park extends Component {
-  state = {}
+  state = {};
+  componentDidMount() {
+    console.log(123);
+  }
   render() {
-    return <div>pp222p</div>
+    return <div>pp222p</div>;
   }
 }
 
-export default Park
+export default Park;

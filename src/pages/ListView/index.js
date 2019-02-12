@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ListView } from "antd-mobile";
 import { findDomNode } from "react-dom";
+import { getUserInfo } from "../../api/user";
 function MyBody(props) {
   return (
     <div className="am-list-body my-body">
@@ -75,6 +76,8 @@ class ListViews extends Component {
   componentDidMount() {
     // you can scroll to the specified position
     // setTimeout(() => this.lv.scrollTo(0, 120), 800);
+    console.log(123);
+    getUserInfo();
     const hei = findDomNode
       ? document.documentElement.clientHeight -
         findDomNode(this.lv).parentNode.offsetTop

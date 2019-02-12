@@ -13,13 +13,8 @@ class AppRoute extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact path="/signup" component={Register} />
-          <Route exact path="/test" component={ListViews} />>
-          <NavBar>
-            <Route exact path="/" component={Park} />
-            <Route exact path="/park" component={Park} />
-            <Route exact path="/news" component={News} />
-            <Route exact path="/me" component={Me} />
-          </NavBar>
+          <Route exact path="/test" component={ListViews} />
+          <Route exact path="/" component={NavBar} />
         </Switch>
       </BrowserRouter>
     );
