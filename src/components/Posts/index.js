@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "./index.less";
 const prefixCls = "post";
-const Post = ({ postData }) => {
+const Posts = ({ postData }) => {
   const { author, title, createdAt } = postData;
   return (
     <div className={`${prefixCls}`}>
@@ -19,7 +19,7 @@ const Post = ({ postData }) => {
     </div>
   );
 };
-Post.propTypes = {
+Posts.propTypes = {
   postData: PropTypes.object
 };
-export default Post;
+export default Posts;

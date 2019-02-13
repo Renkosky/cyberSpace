@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import actions from "../../redux/actions";
 import { getUserInfo } from "api/user";
 import { getAllPosts } from "api/post";
-import Post from "components/Post";
+import Posts from "components/Posts";
 const prefixCls = "Park";
 
 class Park extends Component {
@@ -78,7 +78,7 @@ class Park extends Component {
           )}
         </div>
 
-        {posts && posts.map((item, index) => <Post postData={item} />)}
+        {posts && posts.map((item, index) => <Posts postData={item} />)}
         <PushModal
           show={this.state.pushShow}
           collspasePush={this.collspasePush}
