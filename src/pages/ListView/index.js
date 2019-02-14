@@ -4,16 +4,7 @@ import { getAllPosts } from "api/post";
 import { findDomNode } from "react-dom";
 import Posts from "components/Posts";
 
-const NUM_ROWS = 20;
-let pageIndex = 0;
-
-function genData(pIndex = 0) {
-  const dataArr = [];
-  for (let i = 0; i < NUM_ROWS; i++) {
-    dataArr.push(`row - ${pIndex * NUM_ROWS + i}`);
-  }
-  return dataArr;
-}
+let pageIndex = 1;
 
 class ListViews extends Component {
   constructor(props) {
@@ -27,6 +18,7 @@ class ListViews extends Component {
       data: [],
       refreshing: true,
       isLoading: true,
+      hasMore: false,
       height: document.documentElement.clientHeight,
       useBodyScroll: false
     };
@@ -40,11 +32,15 @@ class ListViews extends Component {
   //     });
   //   }
   // }
+  genData = (pIndex = 1) => {
+    // const dataArr = [];
+    // for (let i = 0; i < NUM_ROWS; i++) {
+    //   dataArr.push(`row - ${pIndex * NUM_ROWS + i}`);
+    // }
+    return getAllPosts({ page: pIndex });
+  };
 
   componentDidUpdate() {
-    getAllPosts().then(res => {
-      this.setState({ data: res.data.posts });
-    });
     if (this.state.useBodyScroll) {
       document.body.style.overflow = "auto";
     } else {
@@ -53,37 +49,38 @@ class ListViews extends Component {
   }
 
   componentDidMount() {
-    getAllPosts().then(res => {
-      this.setState({ data: res.data.posts });
-    });
+    console.log("123", this.rData);
+
     const hei =
       this.state.height - findDomNode
         ? findDomNode(this.lv).offsetTop
         : window.innerHeight;
-    setTimeout(() => {
-      this.rData = genData();
-      console.log("123", this.rData);
-
+    this.genData().then(res => {
+      const { posts } = res.data;
+      console.log(posts);
+      this.rData = posts;
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(genData()),
+        dataSource: this.state.dataSource.cloneWithRows(posts),
         height: hei,
         refreshing: false,
         isLoading: false
       });
-    }, 1500);
+    });
   }
 
   onRefresh = () => {
     this.setState({ refreshing: true, isLoading: true });
-    // simulate initial Ajax
-    setTimeout(() => {
-      this.rData = genData();
+    //simulate initial Ajax
+
+    this.genData().then(res => {
+      const { posts } = res.data;
+      this.rData = posts;
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(this.rData),
         refreshing: false,
         isLoading: false
       });
-    }, 600);
+    });
   };
 
   onEndReached = event => {
@@ -94,26 +91,20 @@ class ListViews extends Component {
     }
     console.log("reach end", event);
     this.setState({ isLoading: true });
-    setTimeout(() => {
-      this.rData = [...this.rData, ...genData(++pageIndex)];
+    this.genData(++pageIndex).then(res => {
+      const { posts } = res.data;
+      if (posts.length === 0) {
+        this.setState({ hasMore: false });
+      }
+      this.rData = [...this.rData, ...posts];
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(this.rData),
         isLoading: false
       });
-    }, 1000);
-  };
-  row = (rowData, sectionID, rowID) => {
-    const { data } = this.state;
-    let index = data.length - 1;
-    if (index < 0) {
-      index = data.length - 1;
-    }
-    const obj = data[index--];
-    return <Posts postData={obj} />;
+    });
   };
 
   render() {
-    const { data } = this.state;
     const separator = (sectionID, rowID) => (
       <div
         key={`${sectionID}-${rowID}`}
@@ -126,6 +117,10 @@ class ListViews extends Component {
       />
     );
 
+    const row = (rowData, sectionID, rowID) => {
+      console.log(rowData);
+      return <Posts postData={rowData} />;
+    };
     return (
       <div>
         <ListView
@@ -138,8 +133,8 @@ class ListViews extends Component {
               {this.state.isLoading ? "Loading..." : ""}
             </div>
           )}
-          initialListSize={data.length}
-          renderRow={this.row}
+          initialListSize={10}
+          renderRow={row}
           renderSeparator={separator}
           useBodyScroll={this.state.useBodyScroll}
           style={

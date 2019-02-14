@@ -11,7 +11,9 @@ const Posts = ({ postData }) => {
       </div>
       <div className={`${prefixCls}-content`}>
         <span className={`${prefixCls}-content-author`}>{author}</span>
-        <div className={`${prefixCls}-content-title`}>{title}</div>
+        <div className={`${prefixCls}-content-title`}>
+          {title.length > 36 ? title.slice(0, 26) + "..." : title}
+        </div>
       </div>
       <div className={`${prefixCls}-date`}>
         {new Date(createdAt).toLocaleDateString()}
