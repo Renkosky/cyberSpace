@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { ListView, PullToRefresh } from "antd-mobile";
 import { getAllPosts } from "api/post";
 import { findDomNode } from "react-dom";
@@ -9,15 +10,14 @@ let pageIndex = 1;
 class ListViews extends Component {
   constructor(props) {
     super(props);
-    const dataSource = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2
-    });
+    // const dataSource = new ListView.DataSource({
+    //   rowHasChanged: (row1, row2) => row1 !== row2
+    // });
 
     this.state = {
-      dataSource,
       data: [],
       refreshing: true,
-      isLoading: true,
+      isLoading: false,
       hasMore: false,
       height: document.documentElement.clientHeight,
       useBodyScroll: false
@@ -46,41 +46,66 @@ class ListViews extends Component {
     } else {
       document.body.style.overflow = "hidden";
     }
+    const { tabHeigth } = this.props;
+    console.log("updated");
+
+    // let topeight = tabHeigth ? tabHeigth : 160;
+    // const hei =
+    //   this.state.height - findDomNode
+    //     ? findDomNode(this.lv).offsetTop
+    //     : window.innerHeight - topeight;
+    // this.post().then(res => {
+    //   const { posts } = res.data;
+    //   console.log(posts);
+    //   this.rData = posts;
+    //   this.setState({
+    //     dataSource: this.state.dataSource.cloneWithRows(posts),
+    //     height: hei,
+    //     refreshing: false,
+    //     isLoading: false
+    //   });
+    // });
   }
 
   componentDidMount() {
-    console.log("123", this.rData);
-
-    const hei =
-      this.state.height - findDomNode
-        ? findDomNode(this.lv).offsetTop
-        : window.innerHeight;
-    this.genData().then(res => {
-      const { posts } = res.data;
-      console.log(posts);
-      this.rData = posts;
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(posts),
-        height: hei,
-        refreshing: false,
-        isLoading: false
-      });
-    });
+    const { getPost } = this.props;
+    // const hei =
+    //   this.state.height - findDomNode
+    //     ? findDomNode(this.lv).offsetTop
+    //     : window.innerHeight;
+    // this.getPost().then(res => {
+    //   const { posts } = res.data;
+    //   console.log(posts);
+    //   this.rData = posts;
+    //   this.setState({
+    //     dataSource: this.state.dataSource.cloneWithRows(posts),
+    //     height: hei,
+    //     refreshing: false,
+    //     isLoading: false
+    //   });
+    // });
+    // this.genData().then(res => {
+    //   const { posts } = res.data;
+    //   this.rData = posts;
+    //   this.setState({
+    //     dataSource: this.state.dataSource.cloneWithRows(posts),
+    //     height: hei,
+    //     refreshing: false,
+    //     isLoading: false
+    //   });
+    // });
   }
 
   onRefresh = () => {
     this.setState({ refreshing: true, isLoading: true });
     //simulate initial Ajax
-
-    this.genData().then(res => {
-      const { posts } = res.data;
-      this.rData = posts;
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.rData),
-        refreshing: false,
-        isLoading: false
-      });
+    this.props.getPost();
+    this.setState({
+      // dataSource: this.state.dataSource.cloneWithRows(this.rData),
+      refreshing: false,
+      isLoading: false
     });
+    // });
   };
 
   onEndReached = event => {
@@ -91,20 +116,23 @@ class ListViews extends Component {
     }
     console.log("reach end", event);
     this.setState({ isLoading: true });
-    this.genData(++pageIndex).then(res => {
-      const { posts } = res.data;
-      if (posts.length === 0) {
-        this.setState({ hasMore: false });
-      }
-      this.rData = [...this.rData, ...posts];
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.rData),
-        isLoading: false
-      });
+    this.props.getPost(++pageIndex);
+    this.setState({
+      isLoading: false
     });
   };
 
   render() {
+    const { postsData, tabHeigth } = this.props;
+    let dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2
+    });
+    dataSource =
+      postsData.length > 0 ? dataSource.cloneWithRows(postsData) : dataSource;
+    const height =
+      this.state.height - findDomNode
+        ? findDomNode(this.lv).offsetTop
+        : window.innerHeight;
     const separator = (sectionID, rowID) => (
       <div
         key={`${sectionID}-${rowID}`}
@@ -118,18 +146,17 @@ class ListViews extends Component {
     );
 
     const row = (rowData, sectionID, rowID) => {
-      console.log(rowData);
       return <Posts postData={rowData} />;
     };
+
     return (
       <div>
         <ListView
           key={this.state.useBodyScroll ? "0" : "1"}
           ref={el => (this.lv = el)}
-          dataSource={this.state.dataSource}
-          renderHeader={() => <span>Pull to refresh</span>}
+          dataSource={dataSource}
           renderFooter={() => (
-            <div style={{ padding: 30, textAlign: "center" }}>
+            <div style={{ textAlign: "center" }}>
               {this.state.isLoading ? "Loading..." : ""}
             </div>
           )}
@@ -141,9 +168,9 @@ class ListViews extends Component {
             this.state.useBodyScroll
               ? {}
               : {
-                  height: this.state.height,
-                  border: "1px solid #ddd",
-                  margin: "5px 0"
+                  height: height - tabHeigth,
+                  margin: "5px 0",
+                  border: "none"
                 }
           }
           pullToRefresh={
@@ -159,4 +186,9 @@ class ListViews extends Component {
     );
   }
 }
+ListViews.PropTypes = {
+  tabHeigth: PropTypes.number,
+  postsData: PropTypes.array,
+  getPost: PropTypes.func
+};
 export default ListViews;
